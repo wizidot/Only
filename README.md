@@ -5,7 +5,7 @@ Basic OnlyFans clone website built in Django web framework using Python.
 ## Getting Started
 
 -Install the prerequisites
--Run the server
+-Run the server python3 manage.py runserver
 
 admin:
 demo
