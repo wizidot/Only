@@ -11,15 +11,17 @@ from django.urls import reverse
 from post.models import Post, PostFileContent, Stream, Likes, Bookmark
 from tier.models import Tier, Subscription
 from comment.models import Comment
+from django.shortcuts import redirect
 
 # Create your views here.
+
 
 @login_required
 def index(request):
     user = request.user
     stream_items = Stream.objects.filter(user=user).order_by('-date')
 
-    #Pagination
+    # Pagination
     paginator = Paginator(stream_items, 9)
     page_number = request.GET.get('page')
     stream_data = paginator.get_page(page_number)
@@ -30,21 +32,22 @@ def index(request):
 
     return render(request, 'index.html', context)
 
+
 @login_required
 def PostDetails(request, post_id):
     user = request.user
     post = get_object_or_404(Post, id=post_id)
 
-    #Check if the user liked the post
+    # Check if the user liked the post
     if Likes.objects.filter(post=post, user=user).exists():
         liked = True
     else:
         liked = False
-    
-    #Comment stuff:
+
+    # Comment stuff:
     comments = Comment.objects.filter(post=post).order_by('-date')
 
-    #Comment form
+    # Comment form
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -57,17 +60,18 @@ def PostDetails(request, post_id):
             return HttpResponseRedirect(reverse('postdetails', args=[post_id]))
     else:
         form = CommentForm()
-    
-    #To validate that the user can see the post
+
+    # To validate that the user can see the post
     if user != post.user:
-        subscriber = Subscription.objects.get(subscriber=request.user, subscribed=post.user)
+        subscriber = Subscription.objects.get(
+            subscriber=request.user, subscribed=post.user)
         if (subscriber.tier.number >= post.tier.number):
             visible = True
         else:
             visible = False
     else:
         visible = True
-    
+
     context = {
         'post': post,
         'visible': visible,
@@ -95,23 +99,26 @@ def NewPost(request):
             tiers = get_object_or_404(Tier, id=tier.id)
 
             for file in files:
-                file_instance = PostFileContent(file=file, user=user, tier=tiers)
+                file_instance = PostFileContent(
+                    file=file, user=user, tier=tiers)
                 file_instance.save()
                 files_objs.append(file_instance)
-            
-            p, created = Post.objects.get_or_create(title=title, caption=caption, user=user, tier=tiers)
+
+            p, created = Post.objects.get_or_create(
+                title=title, caption=caption, user=user, tier=tiers)
             p.content.set(files_objs)
             p.save()
             return redirect('index')
     else:
         form = NewPostForm()
         form.fields['tier'].queryset = Tier.objects.filter(user=user)
-    
+
     context = {
         'form': form,
     }
 
     return render(request, 'newpost.html', context)
+
 
 @login_required
 def like(request, post_id):
@@ -127,11 +134,12 @@ def like(request, post_id):
     else:
         Likes.objects.filter(user=user, post=post).delete()
         current_likes = current_likes - 1
-    
+
     post.likes_count = current_likes
     post.save()
 
     return HttpResponseRedirect(reverse('postdetails', args=[post_id]))
+
 
 @login_required
 def bookmark(request, post_id):
@@ -153,11 +161,12 @@ def bookmark(request, post_id):
     except Exception as e:
         raise e
 
+
 @login_required
 def BookmarkList(request):
     bookmark_list = Bookmark.objects.get(user=request.user)
 
-    #Pagination
+    # Pagination
     paginator = Paginator(bookmark_list.posts.all(), 9)
     page_number = request.GET.get('page')
     bookmark_data = paginator.get_page(page_number)
@@ -167,6 +176,3 @@ def BookmarkList(request):
     }
 
     return render(request, 'bookmark_list.html', context)
-
-
-

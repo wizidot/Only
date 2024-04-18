@@ -26,7 +26,7 @@ SECRET_KEY = '!*of--+n1p4gugm(+d&g)m)5^fpui+ga3um^=364)cdrgfqurj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['l27wj8-8000.csb.app']
 
 
 # Application definition
@@ -137,8 +137,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-#Auth
+# Auth
 LOGIN_REDIRECT_URL = 'check-expiration'
 LOGOUT_REDIRECT_URL = 'login'
 LOGIN_URL = '/user/login/'
-

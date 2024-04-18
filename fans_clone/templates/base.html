@@ -5,7 +5,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>Starter Template - Materialize</title>
+  <title>OnlyCoins</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -15,10 +15,10 @@
 <body>
 
 
-  <nav class="light-blue" role="navigation">
+  <nav class="grey darken-4" role="navigation">
     <div class="nav-wrapper container">
-      <a href="{% url 'index' %}" class="brand-logo"><i class="material-icons">cloud</i>Fans</a>
-      <ul class="right hide-on-med-and-down">
+      <a href="{% url 'index' %}" class="brand-logo"><i class="material-icons">cloud</i>OnlyCoinCoin</a>
+      <ul class="right hide-on-med-and-down white-text">
         <li><a href="{% url 'index' %}"><i class="material-icons left">home</i>Home</a></li>
         <li><a href="{% url 'show-notifications' %}"><i class="material-icons left">notifications</i>Notifications<span class="new badge">{{ count_notifications }}</span></a></li>
         <li><a href="{% url 'newpost' %}"><i class="material-icons left">add_box</i>Post</a></li>
@@ -82,7 +82,7 @@
     {% block icons %}
     {% endblock %}
 
-  <footer class="page-footer orange">
+  <footer class="page-footer black">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">

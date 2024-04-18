@@ -73,7 +73,7 @@
             {% include "new_list_modal.html" %}
 
             <div class="col s10">
-              <h3><b>{{ profile.user.first_name }} {{ profile.user.last_name }}</b></h3>
+              <h3><b>{{ profile.user.id }} {{ profile.user.first_name }} {{ profile.user.last_name }}</b></h3>
               <h5>@{{ profile.user.username }}</h5>
               {{ profile.profile_info }}
             </div>
